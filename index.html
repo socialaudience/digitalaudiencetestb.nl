@@ -28,8 +28,10 @@
             document.hasStorageAccess().then((hasAccess) => {
                 if (hasAccess) {
                     // You can access storage in this context
+                    output.textContent += `access granted \n`;
                 } else {
                     // You have to request storage access
+                    output.textContent += `requestAccess \n`;
                     requestAccess();
                 }
             });
@@ -37,9 +39,12 @@
 
         function requestAccess() {
             navigator.permissions.query({ name: 'storage-access' }).then(res => {
+
+                output.textContent += `requestAccess ${res.state} \n`;
                 if (res.state === 'granted') {
                     // Permission has already been granted
                     // You can request storage access without any user gesture
+
                     rSA();
                 } else if (res.state === 'prompt') {
                     // Requesting storage access requires user gesture
@@ -58,11 +63,14 @@
         function rSA() {
             if ('requestStorageAccess' in document) {
                 document.requestStorageAccess().then(
+                   
                     (res) => {
                         // Use storage access
+                        output.textContent += `rSA ${res} \n`;
                     },
                     (err) => {
                         // Handle errors
+                        output.textContent += `rSA ${err} \n`;
                     }
                 );
             }
