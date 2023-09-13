@@ -22,32 +22,52 @@
 
     <script>
         const output = document.getElementById("data");
-        async function load() {
-            let hasAccess = await document.hasStorageAccess();
-            if (hasAccess === false) {
-                output.textContent += `storageAccess:${hasAccess} \n`;
-                try {
-                    hasAccess = await document.requestStorageAccess();
-                } catch {
-                    output.textContent += `requestStorageAccess() failed \n`;
-                }
-                try {
-                    hasAccess = await document.requestStorageAccessFor('https://www.digitalaudiencetesta.nl/');
-                } catch {
-                    output.textContent += `requestStorageAccessFor('https://www.digitalaudiencetesta.nl/') failed \n`;
-                }
-                try {
-                    hasAccess = await document.requestStorageAccessFor('https://www.digitalaudiencetestb.nl/');
-                } catch {
-                    output.textContent += `requestStorageAccessFor('https://www.digitalaudiencetestb.nl/') failed \n`;
-                }
 
-                hasAccess = await document.hasStorageAccess();
-            }
-
-            output.textContent += `storageAccess:${hasAccess} \n`;
+        function checkAccess() {
+            //Check if hasStorageAccess
+            document.hasStorageAccess().then((hasAccess) => {
+                if (hasAccess) {
+                    // You can access storage in this context
+                } else {
+                    // You have to request storage access
+                    requestAccess();
+                }
+            });
         }
 
-        load();
+        function requestAccess() {
+            navigator.permissions.query({ name: 'storage-access' }).then(res => {
+                if (res.state === 'granted') {
+                    // Permission has already been granted
+                    // You can request storage access without any user gesture
+                    rSA();
+                } else if (res.state === 'prompt') {
+                    // Requesting storage access requires user gesture
+                    // For example, clicking a button
+                    const btn = document.createElement("button");
+                    btn.textContent = "Grant access";
+                    btn.addEventListener('click', () => {
+                        // Request storage access
+                        rSA();
+                    });
+                    document.body.appendChild(btn);
+                }
+            });
+        }
+
+        function rSA() {
+            if ('requestStorageAccess' in document) {
+                document.requestStorageAccess().then(
+                    (res) => {
+                        // Use storage access
+                    },
+                    (err) => {
+                        // Handle errors
+                    }
+                );
+            }
+        }
+
+        checkAccess();
     </script>
 </body>
