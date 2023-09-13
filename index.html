@@ -5,6 +5,9 @@
 </style>
 <body>
     <h1>digitalaudiencetestb.nl</h1>
+    <pre>
+        <code id="data"></code>
+    </pre>
     <script>
         let s = document.createElement('script');
         s.src = "https://cookiebaker.test.digitalaudience.link/bakery/scripts_dev/da_dev.js";
@@ -16,4 +19,35 @@
     <!--<iframe src="https://www.digitalaudiencetesta.nl">
 
     </iframe>-->
+
+    <script>
+        const output = document.getElementById("data");
+        async function load() {
+            let hasAccess = await document.hasStorageAccess();
+            if (hasAccess === false) {
+                output.textContent += `storageAccess:${hasAccess} \n`;
+                try {
+                    hasAccess = await document.requestStorageAccess();
+                } catch {
+                    output.textContent += `requestStorageAccess() failed \n`;
+                }
+                try {
+                    hasAccess = await document.requestStorageAccessFor('https://www.digitalaudiencetesta.nl/');
+                } catch {
+                    output.textContent += `requestStorageAccessFor('https://www.digitalaudiencetesta.nl/') failed \n`;
+                }
+                try {
+                    hasAccess = await document.requestStorageAccessFor('https://www.digitalaudiencetestb.nl/');
+                } catch {
+                    output.textContent += `requestStorageAccessFor('https://www.digitalaudiencetestb.nl/') failed \n`;
+                }
+
+                hasAccess = await document.hasStorageAccess();
+            }
+
+            output.textContent += `storageAccess:${hasAccess} \n`;
+        }
+
+        load();
+    </script>
 </body>
