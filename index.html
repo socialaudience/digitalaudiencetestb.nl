@@ -11,13 +11,18 @@
     </pre>
     <script>
         const output = document.getElementById("data");
+        const targetSite = 'https://www.digitalaudiencetesta.nl';
 
-        hasStorageAccess(null, (res) => {
-            output.textContent += `${res}\n`;
-            if (res === true) {
-                bake();
-            }
+        requestTopLevelAccess(targetSite, (res) => {
+            output.textContent += res;
         });
+
+        //hasStorageAccess(null, (res) => {
+        //    output.textContent += `${res}\n`;
+        //    if (res === true) {
+        //        bake();
+        //    }
+        //});
         function bake() {
             let s = document.createElement('script');
             s.src = "https://cookiebaker.test.digitalaudience.link/bakery/scripts_dev/da_dev.js";
