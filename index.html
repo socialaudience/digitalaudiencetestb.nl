@@ -16,7 +16,6 @@
         hasStorageAccess(null, (res) => {
             output.textContent += `${res}\n`;
             if (res === true) {
-                sharedStorage.set('digitalaudiencetestb', '123');
                 bake();
             }
         });
