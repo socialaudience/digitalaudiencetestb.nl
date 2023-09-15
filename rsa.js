@@ -73,6 +73,7 @@ function rSAFor(targetSite, callback) {
                 console.log(`${rSA.name}: ${true}`);
                 // Use storage access
                 callback(true);
+                checkCookie();
             },
             (err) => {
                 console.log(`${rSAFor.name}: ${err}`);
@@ -89,6 +90,7 @@ function rSA(callback) {
                 console.log(`${rSA.name}: ${true}`);
                 // Use storage access
                 callback(true);
+                checkCookie();
             },
             (err) => {
                 console.log(`${rSA.name}: ${err}`);
@@ -101,4 +103,14 @@ function rSA(callback) {
 function setCookie(value) {
     document.cookie = value; // set a cookie
     console.log(`${setCookie.name} ${value}`);
+}
+function checkCookie() {
+    fetch('https://cookiebaker.test.digitalaudience.link/bakery/bake?car=0&returndaid=1', {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        // Do something
+    });
 }
