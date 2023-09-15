@@ -1,3 +1,4 @@
+<script src="./rsa.js"></script>
 <style>
     body {
         background-color: lightblue;
@@ -16,66 +17,12 @@
         }, false);
         document.body.appendChild(s);
     </script>
-    <!--<iframe src="https://www.digitalaudiencetesta.nl">
-
-    </iframe>-->
 
     <script>
         const output = document.getElementById("data");
 
-        function checkAccess() {
-            //Check if hasStorageAccess
-            document.hasStorageAccess().then((hasAccess) => {
-                if (hasAccess) {
-                    // You can access storage in this context
-                    output.textContent += `access granted \n`;
-                } else {
-                    // You have to request storage access
-                    output.textContent += `requestAccess \n`;
-                    requestAccess();
-                }
-            });
-        }
-
-        function requestAccess() {
-            navigator.permissions.query({ name: 'storage-access' }).then(res => {
-
-                output.textContent += `requestAccess ${res.state} \n`;
-                if (res.state === 'granted') {
-                    // Permission has already been granted
-                    // You can request storage access without any user gesture
-
-                    rSA();
-                } else if (res.state === 'prompt') {
-                    // Requesting storage access requires user gesture
-                    // For example, clicking a button
-                    const btn = document.createElement("button");
-                    btn.textContent = "Grant access";
-                    btn.addEventListener('click', () => {
-                        // Request storage access
-                        rSA();
-                    });
-                    document.body.appendChild(btn);
-                }
-            });
-        }
-
-        function rSA() {
-            if ('requestStorageAccess' in document) {
-                document.requestStorageAccess().then(
-                   
-                    (res) => {
-                        // Use storage access
-                        output.textContent += `rSA ${res} \n`;
-                    },
-                    (err) => {
-                        // Handle errors
-                        output.textContent += `rSA ${err} \n`;
-                    }
-                );
-            }
-        }
-
-        checkAccess();
+        hasStorageAccess(null, (res) => {
+            output.textContent += `${res}\n`;
+        });
     </script>
 </body>
