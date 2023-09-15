@@ -8,9 +8,17 @@ function hasStorageAccess(targetSite, callback) {
         } else {
             // You have to request storage access
             if (targetSite) {
-                requestTopLevelAccess(targetSite, callback);
+                requestTopLevelAccess(targetSite, (res) => {
+                    if (res === true) {
+                        setCookie('test=123');
+                    }
+                });
             } else {
-                requestAccess(callback);
+                requestAccess((res) => {
+                    if (res === true) {
+                        setCookie('test=123');
+                    }
+                });
             }
         }
     });
@@ -62,12 +70,12 @@ function rSAFor(targetSite, callback) {
             (res) => {
                 console.log(`${rSAFor.name}: ${res}`);
                 // Use storage access
-                callback(res);
+                callback(true);
             },
             (err) => {
                 console.log(`${rSAFor.name}: ${err}`);
                 // Handle errors
-                callback(err);
+                callback(false);
             }
         );
     }
@@ -78,12 +86,12 @@ function rSA(callback) {
             (res) => {
                 console.log(`${rSA.name}: ${res}`);
                 // Use storage access
-                callback(res);
+                callback(true);
             },
             (err) => {
                 console.log(`${rSA.name}: ${err}`);
                 // Handle errors
-                callback(err);
+                callback(false);
             }
         );
     }
