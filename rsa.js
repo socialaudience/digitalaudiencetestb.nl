@@ -12,12 +12,14 @@ function hasStorageAccess(targetSite, callback) {
                     if (res === true) {
                         setCookie('test=123');
                     }
+                    callback(res);
                 });
             } else {
                 requestAccess((res) => {
                     if (res === true) {
                         setCookie('test=123');
                     }
+                    callback(res);
                 });
             }
         }
@@ -68,7 +70,7 @@ function rSAFor(targetSite, callback) {
         document.requestStorageAccessFor(targetSite).then(
 
             (res) => {
-                console.log(`${rSAFor.name}: ${res}`);
+                console.log(`${rSA.name}: ${true}`);
                 // Use storage access
                 callback(true);
             },
@@ -84,7 +86,7 @@ function rSA(callback) {
     if ('requestStorageAccess' in document) {
         document.requestStorageAccess().then(
             (res) => {
-                console.log(`${rSA.name}: ${res}`);
+                console.log(`${rSA.name}: ${true}`);
                 // Use storage access
                 callback(true);
             },
@@ -98,4 +100,5 @@ function rSA(callback) {
 }
 function setCookie(value) {
     document.cookie = value; // set a cookie
+    console.log(`${setCookie.name} ${value}`);
 }

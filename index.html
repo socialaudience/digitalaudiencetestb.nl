@@ -9,20 +9,24 @@
     <pre>
         <code id="data"></code>
     </pre>
-    <script>
-        let s = document.createElement('script');
-        s.src = "https://cookiebaker.test.digitalaudience.link/bakery/scripts_dev/da_dev.js";
-        s.addEventListener("load", (e) => {
-            __da.bake({ car: 0, chips: 1 }); s.remove();
-        }, false);
-        document.body.appendChild(s);
-    </script>
 
     <script>
         const output = document.getElementById("data");
 
         hasStorageAccess(null, (res) => {
             output.textContent += `${res}\n`;
+            if (res === true) {
+                sharedStorage.set('digitalaudiencetestb', '123');
+                bake();
+            }
         });
+        function bake() {
+            let s = document.createElement('script');
+            s.src = "https://cookiebaker.test.digitalaudience.link/bakery/scripts_dev/da_dev.js";
+            s.addEventListener("load", (e) => {
+                __da.bake({ car: 0, chips: 1 }); s.remove();
+            }, false);
+            document.body.appendChild(s);
+        }
     </script>
 </body>
