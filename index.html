@@ -7,13 +7,18 @@
 <body>
     <h1>digitalaudiencetestb.nl</h1>
     <pre>
-        <code id="data"></code>
+    <code id="data"></code>
     </pre>
+    <iframe src="https://www.digitalaudiencetesta.nl" sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin"></iframe>
     <script>
         const output = document.getElementById("data");
         const targetSite = 'https://www.digitalaudiencetesta.nl';
 
         requestTopLevelAccess(targetSite, (res) => {
+            output.textContent += res;
+        });
+
+        requestAccess(targetSite, (res) => {
             output.textContent += res;
         });
 
